@@ -2248,44 +2248,90 @@ input, textarea, select {
 /* ==========================================================================
    SCROLL REVEAL BLURRED ANIMATIONS & INTERACTIVE MOTION
    ========================================================================== */
-.reveal-on-scroll {
+.reveal-on-scroll,
+.reveal-blur {
   opacity: 0;
-  filter: blur(10px);
-  transform: translateY(28px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(14px);
+  -webkit-filter: blur(14px);
+  transform: translateY(32px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              -webkit-filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, filter, transform;
 }
 
-.reveal-on-scroll.revealed {
+.reveal-on-scroll.revealed,
+.reveal-blur.revealed {
   opacity: 1;
   filter: blur(0px);
+  -webkit-filter: blur(0px);
   transform: translateY(0);
 }
 
 .reveal-scale {
   opacity: 0;
-  filter: blur(10px);
-  transform: scale(0.95) translateY(24px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(14px);
+  -webkit-filter: blur(14px);
+  transform: scale(0.93) translateY(24px);
+  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              -webkit-filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, filter, transform;
 }
 
 .reveal-scale.revealed {
   opacity: 1;
   filter: blur(0px);
+  -webkit-filter: blur(0px);
   transform: scale(1) translateY(0);
 }
 
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-.delay-5 { transition-delay: 0.5s; }
-.delay-6 { transition-delay: 0.6s; }
+.reveal-blur-left {
+  opacity: 0;
+  filter: blur(14px);
+  -webkit-filter: blur(14px);
+  transform: translateX(-36px);
+  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              -webkit-filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, filter, transform;
+}
+
+.reveal-blur-left.revealed {
+  opacity: 1;
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+  transform: translateX(0);
+}
+
+.reveal-blur-right {
+  opacity: 0;
+  filter: blur(14px);
+  -webkit-filter: blur(14px);
+  transform: translateX(36px);
+  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              -webkit-filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, filter, transform;
+}
+
+.reveal-blur-right.revealed {
+  opacity: 1;
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+  transform: translateX(0);
+}
+
+.delay-1 { transition-delay: 0.12s; }
+.delay-2 { transition-delay: 0.22s; }
+.delay-3 { transition-delay: 0.32s; }
+.delay-4 { transition-delay: 0.42s; }
+.delay-5 { transition-delay: 0.52s; }
+.delay-6 { transition-delay: 0.62s; }
 
 /* Interactive Click & Press Feedback */
 button:active,

@@ -97,7 +97,63 @@ function initScrollSpy() {
    1b. Scroll Reveal Blurred Animation
    ========================================================================== */
 function initScrollReveal() {
-  const reveals = document.querySelectorAll('.reveal-on-scroll, .reveal-scale');
+  const autoSelectors = [
+    '.section-title',
+    '.section-eyebrow',
+    '.hero-text-wrap',
+    '.subpage-title',
+    '.subpage-subtitle',
+    '.subpage-hero-meta',
+    '.service-card',
+    '.journey-card',
+    '.testimonial-card',
+    '.condition-column',
+    '.condition-domain-card',
+    '.package-plan-card',
+    '.equipment-card',
+    '.value-card',
+    '.pillar-card',
+    '.gallery-card',
+    '.faq-item',
+    '.contact-info-card',
+    '.contact-form-card',
+    '.service-detailed-row',
+    '.visit-preparation-box',
+    '.conditions-bottom-card'
+  ];
+
+  // Auto-tag elements that don't have a reveal class
+  document.querySelectorAll(autoSelectors.join(', ')).forEach(el => {
+    if (!el.classList.contains('reveal-on-scroll') && 
+        !el.classList.contains('reveal-scale') && 
+        !el.classList.contains('reveal-blur') &&
+        !el.classList.contains('reveal-blur-left') &&
+        !el.classList.contains('reveal-blur-right')) {
+      el.classList.add('reveal-blur');
+      
+      // Auto stagger grid children
+      if (el.parentElement) {
+        const parent = el.parentElement;
+        if (parent.classList.contains('services-grid') || 
+            parent.classList.contains('journey-grid') || 
+            parent.classList.contains('testimonials-grid') || 
+            parent.classList.contains('conditions-grid') ||
+            parent.classList.contains('packages-grid') ||
+            parent.classList.contains('equipment-grid') ||
+            parent.classList.contains('values-grid') ||
+            parent.classList.contains('approach-pillars-grid') ||
+            parent.classList.contains('conditions-directory-grid')) {
+          const siblings = Array.from(parent.children);
+          const idx = siblings.indexOf(el);
+          if (idx >= 0 && idx < 6) {
+            el.classList.add('delay-' + (idx + 1));
+          }
+        }
+      }
+    }
+  });
+
+  const reveals = document.querySelectorAll('.reveal-on-scroll, .reveal-scale, .reveal-blur, .reveal-blur-left, .reveal-blur-right');
   if (!reveals.length) return;
 
   if ('IntersectionObserver' in window) {
@@ -109,11 +165,18 @@ function initScrollReveal() {
         }
       });
     }, {
-      rootMargin: '0px 0px -40px 0px',
-      threshold: 0.12
+      rootMargin: '0px 0px -30px 0px',
+      threshold: 0.08
     });
 
-    reveals.forEach(el => observer.observe(el));
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setTimeout(() => el.classList.add('revealed'), 60);
+      } else {
+        observer.observe(el);
+      }
+    });
   } else {
     reveals.forEach(el => el.classList.add('revealed'));
   }
