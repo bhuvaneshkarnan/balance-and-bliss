@@ -585,7 +585,7 @@ function initAnimatedCounters() {
     if (!rawText) return;
 
     // Skip registration numbers, years, phone numbers
-    if (rawText.includes('ATMA') || rawText.includes('2025') || rawText.includes('2026') || rawText.includes('8838')) {
+    if (rawText.includes('ATAMA') || rawText.includes('ATMA') || rawText.includes('2025') || rawText.includes('2026') || rawText.includes('8838')) {
       return;
     }
 
