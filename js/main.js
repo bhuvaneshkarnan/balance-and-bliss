@@ -169,14 +169,18 @@ function initScrollReveal() {
         }
       });
     }, {
-      rootMargin: '0px 0px -30px 0px',
-      threshold: 0.08
+      rootMargin: '0px 0px -65px 0px',
+      threshold: 0.12
     });
 
+    let initialStagger = 180;
     reveals.forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        setTimeout(() => el.classList.add('revealed'), 60);
+      if (rect.top < window.innerHeight * 0.88 && rect.bottom > 0) {
+        setTimeout(() => {
+          el.classList.add('revealed');
+        }, initialStagger);
+        initialStagger += 130;
       } else {
         observer.observe(el);
       }
@@ -603,7 +607,7 @@ function initAnimatedCounters() {
     el.dataset.counterDone = 'true';
     const isZeroPadded = match[2].length === 2 && match[2].startsWith('0');
     const hasComma = match[2].includes(',');
-    const duration = 1400;
+    const duration = 2400;
     const startTime = performance.now();
 
     const formatNumber = (num) => {
@@ -616,7 +620,8 @@ function initAnimatedCounters() {
     const updateCounter = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      // easeOutCubic for a tactile, smooth, readable count
+      const ease = 1 - Math.pow(1 - progress, 3);
       const current = Math.floor(ease * target);
       const formatted = `${prefix}${formatNumber(current)}${suffix}`;
 
@@ -650,7 +655,8 @@ function initAnimatedCounters() {
         }
       });
     }, {
-      threshold: 0.15
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.2
     });
 
     counterElements.forEach(el => observer.observe(el));
