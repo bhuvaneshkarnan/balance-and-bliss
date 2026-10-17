@@ -1646,27 +1646,54 @@ input, textarea, select {
   padding: 0.75rem 1.35rem;
   border-radius: var(--radius-pill);
   box-shadow: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
   font-size: 0.92rem;
   font-weight: 600;
   z-index: 99;
-  transition: var(--transition);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease, outline-offset 0.3s ease;
   text-decoration: none;
+  animation: wa-breathe-ring 2.8s infinite cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes wa-breathe-ring {
+  0% {
+    outline: 2px solid rgba(37, 211, 102, 0.75);
+    outline-offset: 0px;
+    transform: translateY(0);
+  }
+  50% {
+    outline: 2px solid rgba(37, 211, 102, 0);
+    outline-offset: 9px;
+    transform: translateY(-2px);
+  }
+  100% {
+    outline: 2px solid rgba(37, 211, 102, 0);
+    outline-offset: 12px;
+    transform: translateY(0);
+  }
 }
 
 .whatsapp-float-btn:hover {
   background-color: #1ebc59;
   color: #ffffff;
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow: none !important;
+  animation: none;
+  outline: 2px solid rgba(37, 211, 102, 0.9) !important;
+  outline-offset: 3px !important;
 }
 
 .whatsapp-float-btn svg {
   width: 22px;
   height: 22px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.whatsapp-float-btn:hover svg {
+  transform: scale(1.15) rotate(-6deg);
 }
 
 /* ==========================================================================
@@ -3174,6 +3201,271 @@ button:active,
     padding: 0.75rem 1.5rem;
     min-height: 48px;
   }
+}
+
+/* ==========================================================================
+   TOP SCROLL PROGRESS INDICATOR
+   ========================================================================== */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #c49a6c 0%, #edd3b8 50%, #c49a6c 100%);
+  z-index: 10000;
+  pointer-events: none;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px rgba(196, 154, 108, 0.65);
+}
+
+/* ==========================================================================
+   BUTTON SHEEN INTERACTIVE SWEEP ANIMATION
+   ========================================================================== */
+.btn-pill,
+.btn-pill-gold,
+.btn-pill-dark,
+.btn-pill-light,
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-pill::before,
+.btn-pill-gold::before,
+.btn-pill-dark::before,
+.btn-pill-light::before,
+.btn-gold::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.28) 45%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.28) 55%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.85s cubic-bezier(0.19, 1, 0.22, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-pill:hover::before,
+.btn-pill-gold:hover::before,
+.btn-pill-dark:hover::before,
+.btn-pill-light:hover::before,
+.btn-gold:hover::before {
+  left: 150%;
+}
+
+/* ==========================================================================
+   CARD CURSOR SPOTLIGHT TRACKING ILLUMINATION
+   ========================================================================== */
+.card-interactive,
+.service-card,
+.journey-card,
+.condition-column,
+.condition-domain-card,
+.package-plan-card,
+.value-card,
+.pillar-card,
+.equipment-card,
+.clinic-highlight-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-interactive::after,
+.service-card::after,
+.journey-card::after,
+.condition-column::after,
+.condition-domain-card::after,
+.value-card::after,
+.pillar-card::after,
+.equipment-card::after,
+.clinic-highlight-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    rgba(196, 154, 108, 0.15),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.package-plan-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    480px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    rgba(216, 176, 130, 0.18),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-interactive:hover::after,
+.service-card:hover::after,
+.journey-card:hover::after,
+.condition-column:hover::after,
+.condition-domain-card:hover::after,
+.package-plan-card:hover::after,
+.value-card:hover::after,
+.pillar-card:hover::after,
+.equipment-card:hover::after,
+.clinic-highlight-item:hover::after {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   FLOATING BACK-TO-TOP BUTTON
+   ========================================================================== */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--bg-espresso-dark);
+  color: var(--accent-gold);
+  border: 1px solid rgba(196, 154, 108, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.9);
+  transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  z-index: 98;
+  box-shadow: none;
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.back-to-top-btn:hover {
+  background-color: var(--accent-gold);
+  color: var(--bg-espresso-dark);
+  border-color: var(--accent-gold);
+  transform: translateY(-3px) scale(1.08);
+}
+
+.back-to-top-btn svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.back-to-top-btn:hover svg {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .back-to-top-btn {
+    bottom: 4.8rem;
+    right: 1.25rem;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* ==========================================================================
+   TACTILE MICRO-INTERACTIONS: ICONS, BADGES & INPUTS
+   ========================================================================== */
+.service-icon,
+.service-card svg,
+.journey-num,
+.value-icon-box,
+.domain-icon,
+.channel-icon,
+.prep-badge {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, color 0.3s ease;
+}
+
+.service-card:hover .service-icon,
+.service-card:hover svg {
+  transform: scale(1.12) translateY(-2px);
+}
+
+.journey-card:hover .journey-num {
+  transform: translateX(4px) scale(1.04);
+}
+
+.value-card:hover .value-icon-box {
+  transform: scale(1.12) rotate(4deg);
+  background-color: rgba(196, 154, 108, 0.22);
+}
+
+.condition-domain-card:hover .domain-icon {
+  transform: scale(1.12) rotate(-4deg);
+  background-color: rgba(196, 154, 108, 0.22);
+}
+
+.contact-channel-item:hover .channel-icon {
+  transform: scale(1.1) rotate(4deg);
+  background-color: rgba(196, 154, 108, 0.22);
+}
+
+/* Form Input Interactive Focus Highlight */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 3px rgba(196, 154, 108, 0.2) !important;
+  background-color: #ffffff !important;
+}
+
+/* Interactive Elasticity for Chips & Meta Pills */
+.condition-chip,
+.condition-pill,
+.meta-pill {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.condition-chip:hover,
+.condition-pill:hover,
+.meta-pill:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Subtle Ambient Float Animation */
+@keyframes soft-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.ambient-float {
+  animation: soft-float 5s ease-in-out infinite;
 }
 
 

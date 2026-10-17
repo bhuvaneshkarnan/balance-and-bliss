@@ -6,6 +6,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initMobileNav();
+  initScrollProgressBar();
+  initBackToTop();
+  initCardSpotlight();
+  initAnimatedCounters();
   initGalleryCarousel();
   initLightbox();
   initFaqAccordion();
@@ -440,3 +444,218 @@ function initServiceDetails() {
     });
   });
 }
+
+/* ==========================================================================
+   8. Top Scroll Progress Indicator
+   ========================================================================== */
+function initScrollProgressBar() {
+  let bar = document.querySelector('.scroll-progress-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.className = 'scroll-progress-bar';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.prepend(bar);
+  }
+
+  let ticking = false;
+  const updateProgress = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateProgress);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  updateProgress();
+}
+
+/* ==========================================================================
+   9. Floating Back-to-Top Button
+   ========================================================================== */
+function initBackToTop() {
+  let btn = document.querySelector('.back-to-top-btn');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.className = 'back-to-top-btn';
+    btn.setAttribute('aria-label', 'Back to top of page');
+    btn.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>`;
+    document.body.appendChild(btn);
+  }
+
+  let ticking = false;
+  const checkScroll = () => {
+    if (window.scrollY > 380) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(checkScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  checkScroll();
+}
+
+/* ==========================================================================
+   10. Interactive Card Spotlight Cursor Tracking
+   ========================================================================== */
+function initCardSpotlight() {
+  if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const cardSelectors = [
+      '.card-interactive',
+      '.service-card',
+      '.journey-card',
+      '.condition-column',
+      '.condition-domain-card',
+      '.package-plan-card',
+      '.value-card',
+      '.pillar-card',
+      '.equipment-card',
+      '.clinic-highlight-item',
+      '.contact-info-card',
+      '.contact-form-card'
+    ];
+
+    const cards = document.querySelectorAll(cardSelectors.join(', '));
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.removeProperty('--mouse-x');
+        card.style.removeProperty('--mouse-y');
+      });
+    });
+  }
+}
+
+/* ==========================================================================
+   11. Interactive Animated Number Counters
+   ========================================================================== */
+function initAnimatedCounters() {
+  const counterElements = document.querySelectorAll(
+    '.credential-value, .journey-num, .pillar-num, .package-plan-price, .meta-pill, [data-counter]'
+  );
+
+  if (!counterElements.length) return;
+
+  const animateElement = (el) => {
+    if (el.dataset.counterDone) return;
+
+    let targetTextNode = null;
+    let rawText = '';
+
+    for (const node of el.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE && /\d+/.test(node.nodeValue)) {
+        targetTextNode = node;
+        rawText = node.nodeValue.trim();
+        break;
+      }
+    }
+
+    if (!targetTextNode) {
+      rawText = el.innerText.trim();
+    }
+
+    if (!rawText) return;
+
+    // Skip registration numbers, years, phone numbers
+    if (rawText.includes('ATMA') || rawText.includes('2025') || rawText.includes('2026') || rawText.includes('8838')) {
+      return;
+    }
+
+    const match = rawText.match(/^([^0-9]*)([\d,]+)(.*)$/s);
+    if (!match) return;
+
+    const prefix = match[1];
+    const rawNum = match[2].replace(/,/g, '');
+    const suffix = match[3];
+    const target = parseInt(rawNum, 10);
+
+    // Animate valid counter values (1 to 5000)
+    if (isNaN(target) || target <= 0 || target > 5000) return;
+
+    el.dataset.counterDone = 'true';
+    const isZeroPadded = match[2].length === 2 && match[2].startsWith('0');
+    const hasComma = match[2].includes(',');
+    const duration = 1400;
+    const startTime = performance.now();
+
+    const formatNumber = (num) => {
+      let str = num.toString();
+      if (hasComma) str = num.toLocaleString('en-IN');
+      if (isZeroPadded && str.length === 1) str = '0' + str;
+      return str;
+    };
+
+    const updateCounter = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = Math.floor(ease * target);
+      const formatted = `${prefix}${formatNumber(current)}${suffix}`;
+
+      if (targetTextNode) {
+        targetTextNode.nodeValue = targetTextNode.nodeValue.startsWith(' ') ? ` ${formatted}` : formatted;
+      } else {
+        el.innerText = formatted;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        const finalFormatted = `${prefix}${formatNumber(target)}${suffix}`;
+        if (targetTextNode) {
+          targetTextNode.nodeValue = targetTextNode.nodeValue.startsWith(' ') ? ` ${finalFormatted}` : finalFormatted;
+        } else {
+          el.innerText = finalFormatted;
+        }
+      }
+    };
+
+    requestAnimationFrame(updateCounter);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateElement(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    counterElements.forEach(el => observer.observe(el));
+  } else {
+    counterElements.forEach(el => animateElement(el));
+  }
+}
+
