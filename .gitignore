@@ -1,0 +1,7 @@
+# Temporary scraping & analysis reference files
+_reference/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.log
