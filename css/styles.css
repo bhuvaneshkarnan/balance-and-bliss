@@ -103,52 +103,6 @@ input, textarea, select {
   padding-right: 2rem;
 }
 
-/* ==========================================================================
-   TOP TICKER / ANNOUNCEMENT BAR
-   ========================================================================== */
-.top-ticker {
-  background-color: var(--bg-espresso-dark);
-  color: var(--text-light);
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  position: relative;
-  z-index: 50;
-}
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker-slide 32s linear infinite;
-}
-
-.ticker-track:hover {
-  animation-play-state: paused;
-}
-
-.ticker-item {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 1.75rem;
-  font-weight: 400;
-  opacity: 0.95;
-}
-
-.ticker-icon {
-  width: 22px;
-  height: 22px;
-  margin-left: 1.75rem;
-  color: var(--icon-taupe);
-  opacity: 0.85;
-}
-
-@keyframes ticker-slide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 
 /* ==========================================================================
    SITE HEADER & NAVIGATION
@@ -2549,9 +2503,6 @@ button:active,
     filter: none !important;
     transform: none !important;
     transition: none !important;
-  }
-  .ticker-track {
-    animation: none !important;
   }
 }
 
