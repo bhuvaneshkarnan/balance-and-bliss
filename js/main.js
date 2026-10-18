@@ -532,6 +532,8 @@ function initCardSpotlight() {
       '.condition-column',
       '.condition-domain-card',
       '.package-plan-card',
+      '.academy-card',
+      '.academy-highlight-box',
       '.value-card',
       '.pillar-card',
       '.equipment-card',
@@ -563,7 +565,7 @@ function initCardSpotlight() {
    ========================================================================== */
 function initAnimatedCounters() {
   const counterElements = document.querySelectorAll(
-    '.credential-value, .journey-num, .pillar-num, .package-plan-price, .meta-pill, [data-counter]'
+    '.credential-value, .journey-num, .pillar-num, .package-plan-price, .academy-price, .meta-pill, [data-counter]'
   );
 
   if (!counterElements.length) return;
@@ -601,8 +603,8 @@ function initAnimatedCounters() {
     const suffix = match[3];
     const target = parseInt(rawNum, 10);
 
-    // Animate valid counter values (1 to 5000)
-    if (isNaN(target) || target <= 0 || target > 5000) return;
+    // Animate valid counter values (1 to 100000)
+    if (isNaN(target) || target <= 0 || target > 100000) return;
 
     el.dataset.counterDone = 'true';
     const isZeroPadded = match[2].length === 2 && match[2].startsWith('0');

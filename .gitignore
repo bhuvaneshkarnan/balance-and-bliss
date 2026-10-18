@@ -5,3 +5,6 @@ _reference/
 .DS_Store
 Thumbs.db
 *.log
+
+# Large media files in Academy source folder
+Academy/*.mp4
