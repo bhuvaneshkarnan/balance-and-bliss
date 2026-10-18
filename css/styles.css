@@ -243,39 +243,81 @@ input, textarea, select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.65rem 1.75rem;
+  padding: 0.72rem 1.85rem;
   border-radius: var(--radius-pill);
-  font-size: 0.9rem;
-  font-weight: 400;
+  font-size: 0.92rem;
+  font-weight: 500;
   letter-spacing: 0.03em;
   transition: var(--transition);
   text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.25;
 }
 
 .btn-pill-light {
-  border: 1px solid rgba(248, 245, 242, 0.5);
+  border: 1.5px solid rgba(248, 245, 242, 0.75);
   color: var(--text-light);
-  background: transparent;
+  background-color: rgba(248, 245, 242, 0.06);
 }
 
 .btn-pill-light:hover {
   background-color: var(--text-light);
   color: var(--bg-espresso-dark);
   border-color: var(--text-light);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.22);
 }
 
 .btn-pill-dark {
-  border: 1px solid var(--text-espresso);
+  border: 1.5px solid var(--text-espresso);
   color: var(--text-espresso);
-  background: transparent;
+  background-color: rgba(73, 48, 32, 0.05);
 }
 
 .btn-pill-dark:hover {
   background-color: var(--text-espresso);
   color: var(--bg-cream);
   border-color: var(--text-espresso);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(73, 48, 32, 0.18);
+}
+
+.btn-pill-primary {
+  border: 1.5px solid var(--text-espresso);
+  background-color: var(--text-espresso);
+  color: var(--bg-cream);
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(73, 48, 32, 0.2);
+}
+
+.btn-pill-primary:hover {
+  background-color: var(--bg-espresso-dark);
+  border-color: var(--bg-espresso-dark);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(73, 48, 32, 0.3);
+}
+
+/* Contrast Safety Guard: Never allow washed-out white text buttons inside light sections */
+.journey-section .btn-pill-light,
+.about-section .btn-pill-light,
+.services-section .btn-pill-light,
+.conditions-section .btn-pill-light,
+.academy-section .btn-pill-light {
+  border-color: var(--text-espresso);
+  color: var(--text-espresso);
+  background-color: rgba(73, 48, 32, 0.05);
+}
+
+.journey-section .btn-pill-light:hover,
+.about-section .btn-pill-light:hover,
+.services-section .btn-pill-light:hover,
+.conditions-section .btn-pill-light:hover,
+.academy-section .btn-pill-light:hover {
+  background-color: var(--text-espresso);
+  color: var(--bg-cream);
+  border-color: var(--text-espresso);
 }
 
 /* Mobile Hamburger Toggle */
@@ -1825,18 +1867,19 @@ input, textarea, select {
    BUTTON: GOLD PILL VARIANT
    ========================================================================== */
 .btn-pill-gold {
-  border: 1px solid var(--accent-gold);
+  border: 1.5px solid var(--accent-gold);
   background-color: var(--accent-gold);
   color: var(--bg-espresso-dark);
   font-weight: 600;
+  box-shadow: 0 3px 12px rgba(196, 154, 108, 0.28);
 }
 
 .btn-pill-gold:hover {
   background-color: #d8b082;
   border-color: #d8b082;
   color: var(--bg-espresso-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(196, 154, 108, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(196, 154, 108, 0.45);
 }
 
 /* ==========================================================================
