@@ -3855,6 +3855,12 @@ textarea:focus {
   line-height: 1;
 }
 
+.academy-price.is-text {
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
 .academy-card.featured-diploma .academy-price {
   color: #ffffff;
 }
