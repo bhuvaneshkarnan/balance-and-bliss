@@ -4695,6 +4695,28 @@ textarea:focus {
   color: var(--text-espresso);
 }
 
+.blog-card-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.blog-card-meta-top .blog-category-pill {
+  margin-bottom: 0;
+}
+
+.blog-card-date {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  margin-left: auto;
+}
+
 .status-pill-published {
   display: inline-flex;
   align-items: center;
