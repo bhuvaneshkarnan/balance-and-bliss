@@ -133,103 +133,102 @@
     </section>
 
     <!-- ==========================================================================
-         BLOG HUB CONTENT
+         BLOG HUB CONTENT & AUTOMATED SCHEDULE ENGINE
          ========================================================================== -->
     <section class="blog-hub-section">
       <div class="container">
 
-        <!-- Featured Cornerstone Article -->
-        <div class="blog-featured-wrap reveal-on-scroll">
-          <a href="/blog-heel-pain-plantar-fasciitis-madurai" class="blog-featured-card">
-            <div class="blog-featured-media">
-              <img src="assets/images/facility-foot-reflexology.jpg" alt="Clinical foot reflexology for plantar fasciitis and heel pain in Madurai">
-            </div>
-            <div class="blog-featured-content">
-              <span class="blog-category-pill">Heel Pain &bull; Cornerstone Clinical Guide</span>
-              <h2 class="blog-featured-title">
-                How Clinical Foot Reflexology Cures Plantar Fasciitis &amp; Heel Pain in Madurai (Without Injections)
-              </h2>
-              <p class="blog-featured-excerpt">
-                Struggling with sharp morning heel pain? Discover how specialized somatotopic reflex point therapy and warm hydrotherapy break down plantar fascial adhesions, restore calf elasticity, and eradicate heel spurs naturally.
-              </p>
-              <div class="blog-meta-row">
-                <span class="blog-author-sig">By Dr. M. Mehraj Abdullah, M.D (Acu)</span>
-                <span>&bull;</span>
-                <span>6 min read</span>
-                <span style="margin-left: auto; color: var(--accent-gold); font-weight: 700;">Read Article &rarr;</span>
+        <!-- Dynamic Blog App Container (Populated by js/blog-engine.js) -->
+        <div id="blog-engine-app">
+          
+          <!-- Fallback Semantic Content for Search Engines & Non-JS Clients -->
+          <div class="blog-featured-wrap reveal-on-scroll">
+            <a href="/blog-heel-pain-plantar-fasciitis-madurai" class="blog-featured-card">
+              <div class="blog-featured-media">
+                <img src="assets/images/facility-foot-reflexology.jpg" alt="Clinical foot reflexology for plantar fasciitis and heel pain in Madurai">
               </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Articles Grid -->
-        <div class="blog-grid">
-
-          <!-- Article 2: Clinical Reflexology vs Ordinary Massage -->
-          <article class="blog-card reveal-on-scroll delay-1">
-            <a href="/blog-clinical-reflexology-vs-spa-massage" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-              <div class="blog-card-media">
-                <img src="assets/images/hero-massage.jpg" alt="Clinical foot reflexology compared to ordinary parlour foot massage">
-              </div>
-              <div class="blog-card-content">
-                <span class="blog-category-pill">Comparative Analysis</span>
-                <h3 class="blog-card-title">
-                  Clinical Foot Reflexology vs. Ordinary Salon Foot Massage: What You Need to Know
-                </h3>
-                <p class="blog-card-excerpt">
-                  Why commercial franchise foot rubs only offer 2 hours of surface relief, while doctor-led clinical neuro-reflexology treats the underlying systemic cause.
+              <div class="blog-featured-content">
+                <span class="blog-category-pill">Heel Pain &bull; Cornerstone Clinical Guide</span>
+                <h2 class="blog-featured-title">
+                  How Clinical Foot Reflexology Cures Plantar Fasciitis &amp; Heel Pain in Madurai (Without Injections)
+                </h2>
+                <p class="blog-featured-excerpt">
+                  Struggling with sharp morning heel pain? Discover how specialized somatotopic reflex point therapy and warm hydrotherapy break down plantar fascial adhesions, restore calf elasticity, and eradicate heel spurs naturally.
                 </p>
-                <div class="blog-card-footer">
-                  <span>Dr. Mehraj Abdullah</span>
-                  <span class="blog-read-link">Read Guide &rarr;</span>
+                <div class="blog-meta-row">
+                  <span class="blog-author-sig">By Dr. M. Mehraj Abdullah, M.D (Acu)</span>
+                  <span>&bull;</span>
+                  <span>6 min read</span>
+                  <span style="margin-left: auto; color: var(--accent-gold); font-weight: 700;">Read Article &rarr;</span>
                 </div>
               </div>
             </a>
-          </article>
+          </div>
 
-          <!-- Article 3: Science of 7,200 Plantar Nerves -->
-          <article class="blog-card reveal-on-scroll delay-2">
-            <a href="/blog-science-of-7200-plantar-nerves" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-              <div class="blog-card-media">
-                <img src="assets/images/facility-spine-therapy.jpg" alt="Neurovascular nerve endings of the foot connected to spine and sciatica">
-              </div>
-              <div class="blog-card-content">
-                <span class="blog-category-pill">Neurology &amp; Spine</span>
-                <h3 class="blog-card-title">
-                  The Science of 7,200 Plantar Nerve Endings: Relieving Sciatica, Stress &amp; Organ Fatigue
-                </h3>
-                <p class="blog-card-excerpt">
-                  Understand the anatomical somatotopic communication loop connecting your foot soles to the central nervous system, lumbar vertebrae, and visceral organs.
-                </p>
-                <div class="blog-card-footer">
-                  <span>Clinical Research</span>
-                  <span class="blog-read-link">Read Guide &rarr;</span>
+          <div class="blog-grid">
+            <article class="blog-card">
+              <a href="/blog-clinical-reflexology-vs-spa-massage" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                <div class="blog-card-media">
+                  <img src="assets/images/hero-massage.jpg" alt="Clinical foot reflexology compared to ordinary parlour foot massage">
                 </div>
-              </div>
-            </a>
-          </article>
+                <div class="blog-card-content">
+                  <span class="blog-category-pill">Comparative Analysis</span>
+                  <h3 class="blog-card-title">
+                    Clinical Foot Reflexology vs. Ordinary Salon Foot Massage: What You Need to Know
+                  </h3>
+                  <p class="blog-card-excerpt">
+                    Why commercial franchise foot rubs only offer 2 hours of surface relief, while doctor-led clinical neuro-reflexology treats the underlying systemic cause.
+                  </p>
+                  <div class="blog-card-footer">
+                    <span>Dr. Mehraj Abdullah</span>
+                    <span class="blog-read-link">Read Guide &rarr;</span>
+                  </div>
+                </div>
+              </a>
+            </article>
 
-          <!-- Article 4: Padha Sigichai Heritage in Madurai -->
-          <article class="blog-card reveal-on-scroll delay-3">
-            <a href="/blog-padha-sigichai-madurai" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-              <div class="blog-card-media">
-                <img src="assets/images/about-massage.jpg" alt="Traditional Padha Sigichai in Madurai Tamil Nadu">
-              </div>
-              <div class="blog-card-content">
-                <span class="blog-category-pill">Tamil Medical Heritage</span>
-                <h3 class="blog-card-title">
-                  Padha Sigichai (பாத சிகிச்சை): Ancient Tamil Foot Healing in Modern Clinical Practice
-                </h3>
-                <p class="blog-card-excerpt">
-                  Discover how ancient Siddha Padha Sigichai traditions harmonize with digital hydrotherapy foot immersion and precision meridian point balance in Madurai.
-                </p>
-                <div class="blog-card-footer">
-                  <span>Traditional Science</span>
-                  <span class="blog-read-link">Read Guide &rarr;</span>
+            <article class="blog-card">
+              <a href="/blog-science-of-7200-plantar-nerves" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                <div class="blog-card-media">
+                  <img src="assets/images/facility-spine-therapy.jpg" alt="Neurovascular nerve endings of the foot connected to spine and sciatica">
                 </div>
-              </div>
-            </a>
-          </article>
+                <div class="blog-card-content">
+                  <span class="blog-category-pill">Neurology &amp; Spine</span>
+                  <h3 class="blog-card-title">
+                    The Science of 7,200 Plantar Nerve Endings: Relieving Sciatica, Stress &amp; Organ Fatigue
+                  </h3>
+                  <p class="blog-card-excerpt">
+                    Understand the anatomical somatotopic communication loop connecting your foot soles to the central nervous system, lumbar vertebrae, and visceral organs.
+                  </p>
+                  <div class="blog-card-footer">
+                    <span>Clinical Research</span>
+                    <span class="blog-read-link">Read Guide &rarr;</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="blog-card">
+              <a href="/blog-padha-sigichai-madurai" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                <div class="blog-card-media">
+                  <img src="assets/images/about-massage.jpg" alt="Traditional Padha Sigichai in Madurai Tamil Nadu">
+                </div>
+                <div class="blog-card-content">
+                  <span class="blog-category-pill">Tamil Medical Heritage</span>
+                  <h3 class="blog-card-title">
+                    Padha Sigichai (பாத சிகிச்சை): Ancient Tamil Foot Healing in Modern Clinical Practice
+                  </h3>
+                  <p class="blog-card-excerpt">
+                    Discover how ancient Siddha Padha Sigichai traditions harmonize with digital hydrotherapy foot immersion and precision meridian point balance in Madurai.
+                  </p>
+                  <div class="blog-card-footer">
+                    <span>Traditional Science</span>
+                    <span class="blog-read-link">Read Guide &rarr;</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          </div>
 
         </div>
 
@@ -329,6 +328,8 @@
   </a>
 
   <!-- JavaScript -->
+  <script src="js/blogs-data.js"></script>
+  <script src="js/blog-engine.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
