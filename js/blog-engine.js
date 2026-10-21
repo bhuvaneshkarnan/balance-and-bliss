@@ -49,6 +49,19 @@
 
   let blogs = evaluateBlogs(effectiveNow);
 
+  const PILLAR_CONFIG = [
+    { id: 1, name: "Foot & Heel Pain" },
+    { id: 2, name: "Sciatica & Spine" },
+    { id: 3, name: "Diabetic Foot Care" },
+    { id: 4, name: "Circulation & Veins" },
+    { id: 5, name: "Acupuncture & Meridians" },
+    { id: 6, name: "Stress & Insomnia" },
+    { id: 7, name: "Digestive Health" },
+    { id: 8, name: "Women's Health" },
+    { id: 9, name: "Tamil Padha Sigichai" },
+    { id: 10, name: "Drugless Philosophy" }
+  ];
+
   // State
   let state = {
     mode: 'published', // 'published' or 'all'
@@ -60,6 +73,59 @@
 
   const container = document.getElementById('blog-engine-app');
   if (!container) return;
+
+  function getPillarCounts() {
+    const pool = state.mode === 'published' ? blogs.filter(p => p.isPublished) : blogs;
+    const counts = {};
+    pool.forEach(p => {
+      counts[p.pillar_id] = (counts[p.pillar_id] || 0) + 1;
+    });
+    return counts;
+  }
+
+  function renderPillarChips() {
+    const chipsContainer = document.getElementById('blog-filter-chips');
+    if (!chipsContainer) return;
+
+    const counts = getPillarCounts();
+
+    // If currently selected pillar has 0 published posts in this mode, reset to All (0)
+    if (state.pillarId > 0 && !counts[state.pillarId]) {
+      state.pillarId = 0;
+    }
+
+    let chipsHtml = `
+      <button class="blog-filter-chip ${state.pillarId === 0 ? 'active' : ''}" data-pillar="0">
+        All Clinical Pillars
+      </button>
+    `;
+
+    PILLAR_CONFIG.forEach(pillar => {
+      // ONLY render chip if this category actually contains posted articles in this mode
+      if (counts[pillar.id] && counts[pillar.id] > 0) {
+        const isActive = state.pillarId === pillar.id ? 'active' : '';
+        chipsHtml += `
+          <button class="blog-filter-chip ${isActive}" data-pillar="${pillar.id}">
+            ${escapeHtml(pillar.name)}
+          </button>
+        `;
+      }
+    });
+
+    chipsContainer.innerHTML = chipsHtml;
+
+    // Attach click listeners to the dynamically rendered chips
+    const chipBtns = chipsContainer.querySelectorAll('.blog-filter-chip');
+    chipBtns.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        chipBtns.forEach(c => c.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        state.pillarId = parseInt(e.currentTarget.getAttribute('data-pillar'), 10) || 0;
+        state.currentPage = 1;
+        renderFilteredResults();
+      });
+    });
+  }
 
   function renderApp() {
     blogs = evaluateBlogs(effectiveNow);
@@ -93,42 +159,8 @@
           </div>
         </div>
 
-        <!-- Pillar Category Filter Chips -->
-        <div class="blog-filter-chips" id="blog-filter-chips">
-          <button class="blog-filter-chip ${state.pillarId === 0 ? 'active' : ''}" data-pillar="0">
-            All Clinical Pillars
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 1 ? 'active' : ''}" data-pillar="1">
-            Foot &amp; Heel Pain
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 2 ? 'active' : ''}" data-pillar="2">
-            Sciatica &amp; Spine
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 3 ? 'active' : ''}" data-pillar="3">
-            Diabetic Foot Care
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 4 ? 'active' : ''}" data-pillar="4">
-            Circulation &amp; Veins
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 5 ? 'active' : ''}" data-pillar="5">
-            Acupuncture &amp; Meridians
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 6 ? 'active' : ''}" data-pillar="6">
-            Stress &amp; Insomnia
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 7 ? 'active' : ''}" data-pillar="7">
-            Digestive Health
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 8 ? 'active' : ''}" data-pillar="8">
-            Women's Health
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 9 ? 'active' : ''}" data-pillar="9">
-            Tamil Padha Sigichai
-          </button>
-          <button class="blog-filter-chip ${state.pillarId === 10 ? 'active' : ''}" data-pillar="10">
-            Drugless Philosophy
-          </button>
-        </div>
+        <!-- Pillar Category Filter Chips (Dynamically shown only when posts exist) -->
+        <div class="blog-filter-chips" id="blog-filter-chips"></div>
       </div>
 
       <!-- Results Meta Bar -->
@@ -141,7 +173,8 @@
       <div class="blog-pagination" id="blog-pagination-output"></div>
     `;
 
-    bindEvents();
+    bindControls();
+    renderPillarChips();
     renderFilteredResults();
   }
 
@@ -212,7 +245,7 @@
           state.currentPage = 1;
           const searchInput = document.getElementById('blog-search-input');
           if (searchInput) searchInput.value = '';
-          updatePillarChipsUI();
+          renderPillarChips();
           renderFilteredResults();
         });
       }
@@ -232,8 +265,8 @@
     gridContainer.innerHTML = pageItems.map(art => {
       // Clean, understated date on right side:
       const dateDisplay = art.isPublished 
-        ? `<span class="blog-card-date">${art.formattedDate}</span>`
-        : `<span class="blog-card-date" style="color: var(--accent-gold); font-weight: 600;">Drops ${art.formattedDate}</span>`;
+        ? `<time class="blog-card-date" datetime="${art.publishDateTime || (art.publishDate + 'T06:00:00+05:30')}">${art.formattedDate}</time>`
+        : `<time class="blog-card-date" datetime="${art.publishDateTime || (art.publishDate + 'T06:00:00+05:30')}" style="color: var(--accent-gold); font-weight: 600;">Drops ${art.formattedDate}</time>`;
 
       return `
         <article class="blog-card reveal-on-scroll">
@@ -243,7 +276,7 @@
             </div>
             <div class="blog-card-content">
               <div class="blog-card-meta-top">
-                <span class="blog-category-pill">${escapeHtml(art.category)}</span>
+                <span class="blog-category-pill" title="${escapeHtml(art.category)}">${escapeHtml(art.category)}</span>
                 ${dateDisplay}
               </div>
               <h3 class="blog-card-title">
@@ -296,27 +329,16 @@
     }
   }
 
-  function bindEvents() {
+  function bindControls() {
     // Mode toggles
     const modeBtns = container.querySelectorAll('.blog-toggle-btn');
     modeBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         modeBtns.forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        state.mode = e.target.getAttribute('data-mode');
+        e.currentTarget.classList.add('active');
+        state.mode = e.currentTarget.getAttribute('data-mode');
         state.currentPage = 1;
-        renderFilteredResults();
-      });
-    });
-
-    // Pillar Filter chips
-    const chipBtns = container.querySelectorAll('.blog-filter-chip');
-    chipBtns.forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        chipBtns.forEach(c => c.classList.remove('active'));
-        e.target.classList.add('active');
-        state.pillarId = parseInt(e.target.getAttribute('data-pillar'), 10) || 0;
-        state.currentPage = 1;
+        renderPillarChips();
         renderFilteredResults();
       });
     });
@@ -353,18 +375,6 @@
         }
       });
     }
-  }
-
-  function updatePillarChipsUI() {
-    const chipBtns = container.querySelectorAll('.blog-filter-chip');
-    chipBtns.forEach(chip => {
-      const pid = parseInt(chip.getAttribute('data-pillar'), 10) || 0;
-      if (pid === state.pillarId) {
-        chip.classList.add('active');
-      } else {
-        chip.classList.remove('active');
-      }
-    });
   }
 
   function escapeHtml(str) {
