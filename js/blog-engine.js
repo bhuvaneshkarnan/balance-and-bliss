@@ -135,12 +135,14 @@
       <!-- Interactive Controls Box -->
       <div class="blog-controls-wrapper">
         <div class="blog-top-bar">
-          <div class="blog-view-toggle">
-            <button class="blog-toggle-btn ${state.mode === 'published' ? 'active' : ''}" data-mode="published">
-              Published Guides (${publishedCount})
+          <div class="blog-view-toggle" role="tablist" aria-label="Blog curriculum view mode">
+            <button class="blog-toggle-btn ${state.mode === 'published' ? 'active' : ''}" data-mode="published" role="tab" aria-selected="${state.mode === 'published'}">
+              <span class="toggle-text-full">Published Guides (${publishedCount})</span>
+              <span class="toggle-text-short">Published (${publishedCount})</span>
             </button>
-            <button class="blog-toggle-btn ${state.mode === 'all' ? 'active' : ''}" data-mode="all">
-              All 110 Masterclasses (Full Schedule)
+            <button class="blog-toggle-btn ${state.mode === 'all' ? 'active' : ''}" data-mode="all" role="tab" aria-selected="${state.mode === 'all'}">
+              <span class="toggle-text-full">All 110 Masterclasses (Full Schedule)</span>
+              <span class="toggle-text-short">All 110 Guides</span>
             </button>
           </div>
 
@@ -153,8 +155,9 @@
               type="text" 
               class="blog-search-input" 
               id="blog-search-input" 
-              placeholder="Search heel pain, sciatica, diabetes, stress..." 
+              placeholder="Search clinical guides, symptoms..." 
               value="${escapeHtml(state.searchQuery)}"
+              aria-label="Search clinical guides"
             />
           </div>
         </div>
@@ -334,9 +337,15 @@
     const modeBtns = container.querySelectorAll('.blog-toggle-btn');
     modeBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        modeBtns.forEach(b => b.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        state.mode = e.currentTarget.getAttribute('data-mode');
+        const targetBtn = e.target.closest('.blog-toggle-btn');
+        if (!targetBtn) return;
+        modeBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        targetBtn.classList.add('active');
+        targetBtn.setAttribute('aria-selected', 'true');
+        state.mode = targetBtn.getAttribute('data-mode');
         state.currentPage = 1;
         renderPillarChips();
         renderFilteredResults();
