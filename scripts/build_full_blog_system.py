@@ -54,6 +54,8 @@ def format_human_date(date_str):
 # Assign schedule to all articles
 for idx, art in enumerate(ALL_ARTICLES):
     art["publishDate"] = SCHEDULE[idx]
+    art["publishTime"] = "06:00 AM IST"
+    art["publishDateTime"] = f"{SCHEDULE[idx]}T06:00:00+05:30"
     art["formattedDate"] = format_human_date(SCHEDULE[idx])
     art["excerpt"] = art.get("lead", "")[:180] + "..." if len(art.get("lead", "")) > 180 else art.get("lead", "")
 
