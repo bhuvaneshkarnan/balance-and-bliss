@@ -39,32 +39,37 @@ function initStickyHeader() {
   onScroll();
 }
 
-function initActiveNav() {
-  const path = window.location.pathname;
-  let page = path.split('/').pop();
-  if (!page || page === '') page = 'index.html';
+function normalizePageSlug(raw) {
+  if (!raw) return '';
+  let clean = raw.split('#')[0].split('?')[0].trim();
+  clean = clean.replace(/^\/+|\/+$/g, '');
+  clean = clean.replace(/\.html$/, '');
+  if (clean === 'index') clean = '';
+  return clean;
+}
 
+function initActiveNav() {
+  const currentSlug = normalizePageSlug(window.location.pathname);
   const navLinks = document.querySelectorAll('.nav-menu .nav-link, .mobile-nav-link');
 
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
     if (!href) return;
-    const linkPage = href.split('#')[0];
+    const linkSlug = normalizePageSlug(href);
 
-    if (linkPage === page || (!linkPage && page === 'index.html' && href.startsWith('#'))) {
-      if (linkPage === page) {
-        link.classList.add('active');
-      }
-    } else if (linkPage && linkPage !== page) {
+    if (linkSlug === currentSlug) {
+      link.classList.add('active');
+    } else if (href.startsWith('#') && currentSlug === '') {
+      // Keep scrollspy handling
+    } else {
       link.classList.remove('active');
     }
   });
 }
 
 function initScrollSpy() {
-  const path = window.location.pathname;
-  let page = path.split('/').pop();
-  if (page && page !== 'index.html' && page !== '') return;
+  const currentSlug = normalizePageSlug(window.location.pathname);
+  if (currentSlug !== '') return;
 
   const sections = document.querySelectorAll('section[id], body[id]');
   const navLinks = document.querySelectorAll('.nav-menu .nav-link');
@@ -84,10 +89,13 @@ function initScrollSpy() {
 
     if (currentId) {
       navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === `#${currentId}` || href === `index.html#${currentId}`) {
+        const href = link.getAttribute('href') || '';
+        const linkSlug = normalizePageSlug(href);
+        const hash = href.includes('#') ? href.split('#')[1] : '';
+
+        if (hash === currentId && (linkSlug === '' || linkSlug === currentSlug)) {
           link.classList.add('active');
-        } else if (href.startsWith('#') || href.startsWith('index.html#')) {
+        } else if (hash && hash !== currentId) {
           link.classList.remove('active');
         }
       });
